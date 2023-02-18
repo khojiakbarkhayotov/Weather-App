@@ -1,0 +1,137 @@
+.forecast {
+  display: flex;
+  flex-flow: column;
+  gap: 3.5rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  @media (max-width: 550px) {
+    align-items: center;
+    gap: 2.5rem;
+  }
+}
+
+.weather-forecast-daily {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  width: calc(100vw - 16rem);
+
+  @media (max-width: 1600px) {
+    width: calc(100vw - 14rem);
+  }
+
+  @media (max-width: 1200px) {
+    width: calc(100vw - 12rem);
+  }
+
+  @media (max-width: 800px) {
+    width: calc(100vw - 8rem);
+  }
+
+  @media (max-width: 550px) {
+    flex-flow: column;
+    align-items: space-around;
+    gap: 2rem;
+  }
+
+  &-item {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+
+    @media (max-width: 550px) {
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      padding: 0 5rem;
+    }
+    @media (max-width: 300px) {
+      padding: 0 2rem;
+    }
+  }
+  &-day {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-weight: 500;
+    @media (max-width: 550px) {
+      width: 12rem;
+    }
+  }
+
+  &-temp {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    // @media (max-width: 300px) {
+    //   width: 15rem;
+    // }
+  }
+
+  &-high {
+    font-size: 2.9rem;
+    font-weight: bold;
+  }
+
+  &-low {
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+
+  &-icon {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+// block responsible for switching between two existing modes: hourly || daily
+.change-forecast {
+  color: $color-text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row nowrap;
+  gap: 2rem;
+
+  @media (max-width: 550px) {
+    align-items: center;
+  }
+
+  &-button {
+    font-family: montserrat;
+    font-weight: 600;
+    color: $color-text;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 1.4rem;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+
+  &-active-btn {
+    border: 2px solid $color-text;
+    border-radius: 0.5rem;
+  }
+}
+
+.change-hours {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1rem;
+
+  &-left,
+  &-right {
+    width: 1.4rem;
+    cursor: pointer;
+  }
+
+  &-dot {
+    cursor: pointer;
+    width: 1.1rem;
+  }
+}
