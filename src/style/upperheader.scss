@@ -19,6 +19,10 @@
     width: calc(100vw - 8rem);
   }
 
+  @media (max-width: 380px) {
+    width: calc(100vw - 5rem);
+  }
+
   @media (max-width: 550px) {
     margin-bottom: 2rem;
   }

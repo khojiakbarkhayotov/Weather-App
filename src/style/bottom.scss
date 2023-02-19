@@ -11,10 +11,7 @@
   }
 }
 
-.weather-forecast-daily {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+.general-forecast {
   width: calc(100vw - 16rem);
 
   @media (max-width: 1600px) {
@@ -29,24 +26,37 @@
     width: calc(100vw - 8rem);
   }
 
+  @media (max-width: 380px) {
+    width: calc(100vw - 5rem);
+  }
+}
+
+.weather-forecast-daily {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  height: 17rem;
+
   @media (max-width: 550px) {
     flex-flow: column;
     align-items: space-around;
     gap: 2rem;
+    min-height: 70rem;
   }
 
   &-item {
     display: flex;
     flex-flow: column nowrap;
     gap: 1rem;
+    justify-content: space-between;
 
     @media (max-width: 550px) {
       flex-flow: row nowrap;
       justify-content: space-between;
-      padding: 0 5rem;
+      padding: 0 4rem;
     }
-    @media (max-width: 300px) {
-      padding: 0 2rem;
+    @media (max-width: 380px) {
+      padding: 0 3rem;
     }
   }
   &-day {
@@ -79,6 +89,54 @@
   }
 
   &-icon {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+// block responsible for hourly weather forecast
+.weather-forecast-hourly {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  height: 17rem;
+
+  @media (max-width: 550px) {
+    flex-flow: column;
+    align-items: space-between;
+    gap: 2rem;
+    min-height: 50rem;
+  }
+
+  &__item {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 2rem;
+
+    @media (max-width: 550px) {
+      flex-flow: row;
+      padding: 0 4rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 380px) {
+      padding: 0 3rem;
+    }
+  }
+
+  &__hour {
+    width: 8rem;
+    font-size: 2rem;
+    font-weight: 500;
+  }
+
+  &__temp {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  &__icon {
     width: 4rem;
     height: 4rem;
   }

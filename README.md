@@ -7,6 +7,6 @@ Search a location for forecast data.
 - Unique weather symbols for each forecast description.
 - Display user location by default.
 
-[Live App](https://bscottnz.github.io/weather-app/)
+[Live App](https://khojiakbarkhayotov.github.io/Weather-App/)
 
 ![alt text](https://raw.githubusercontent.com/bscottnz/weather-app/main/weather.png "App Preview")

@@ -9,8 +9,8 @@ const dayNames = [
   "Saturday",
 ];
 
-/**getData function to return formated data */
-function getData(data) {
+/**getDataDaily function to return formated data to Daily Forecast*/
+function getDataDaily(data) {
   const weatherData = {};
   const date = new Date(data.dt * 1000);
   weatherData.day = dayNames[date.getDay()];
@@ -25,6 +25,22 @@ function getData(data) {
   weatherData.icon = data.weather[0].icon;
   return weatherData;
 }
+
+/**getDataHourly function to return formated data to Hourly Forecast*/
+function getDataHourly(data) {
+  const weatherData = {};
+  const date = new Date(data.dt * 1000);
+  const hour = date.getHours();
+  weatherData.hour = hour > 12 ? hour - 12 + " pm" : hour + " am";
+  if (weatherData.hour == "0 am") weatherData.hour = "12 am";
+  weatherData.temp =
+    data.temp > 220
+      ? Math.round(data.temp - 273.15) + " °C"
+      : Math.round(data.temp) + " °F";
+  weatherData.icon = data.weather[0].icon;
+  return weatherData;
+}
+
 /**getIcon function to return icon for weather
  * Accept code from data object, that corresponds to weather icon
  */
@@ -94,4 +110,4 @@ function getIcon(code) {
   return "";
 }
 
-export default { getData, getIcon, dayNames };
+export default { getDataDaily, getIcon, dayNames, getDataHourly };

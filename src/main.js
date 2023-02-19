@@ -46,6 +46,14 @@ class Main {
     else if (lastDigit === 3) suffix = "rd";
     else suffix = "th";
 
+    const dateISO = new Date(
+      new Date(this.#data.current.dt * 1000).toLocaleString(
+        "en-US",
+        this.#data.timezone
+      )
+    ).toLocaleString("en-US", this.#data.timezone);
+    console.log(this.#data.timezone);
+    console.log(dateISO);
     data.date = `${
       helper.dayNames[dateGlobal.getDay()]
     }, ${dateGlobal.getDate()}${suffix} ${
@@ -88,6 +96,7 @@ class Main {
             <input
               class="search-box__input"
               type="text"
+              name="city"
               placeholder="Search Location..."
             />
             <img class="search-box__image" src=${searchIcon} alt="search" type="submit" />

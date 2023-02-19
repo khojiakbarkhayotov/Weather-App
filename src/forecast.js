@@ -3,6 +3,8 @@ import helper from "./helper.js";
 import left from "./assets/SVG/arrow_left.svg";
 import right from "./assets/SVG/arrow_right.svg";
 import dotCircle from "./assets/SVG/dot_circle.svg";
+import { HourlyForecast } from "./forecast-hourly.js";
+import { chunk } from "lodash";
 
 class ChangeForecast {
   #changeForecast = document.createElement("div");
@@ -10,7 +12,6 @@ class ChangeForecast {
   constructor() {
     this.#changeForecast.classList.add("change-forecast");
     const dailyButton = this.generateButton("change-forecast-daily", "Daily");
-    const changeHours = this.changeHours();
     const hourlyButton = this.generateButton(
       "change-forecast-hourly",
       "Hourly"
@@ -18,31 +19,16 @@ class ChangeForecast {
 
     // activate border at initial load
     dailyButton.classList.add("change-forecast-active-btn");
-
-    // Add Event Listeners to buttons
-    dailyButton.addEventListener(
-      "click",
-      this.activeDaily.bind(
-        dailyButton,
-        hourlyButton,
-        changeHours,
-        this.#changeForecast
-      )
-    );
-
-    hourlyButton.addEventListener(
-      "click",
-      this.activeHourly.bind(
-        hourlyButton,
-        dailyButton,
-        changeHours,
-        this.#changeForecast
-      )
-    );
     this.#changeForecast.appendChild(dailyButton);
     this.#changeForecast.appendChild(hourlyButton);
+  }
 
+  get getChangeForecast() {
     return this.#changeForecast;
+  }
+
+  get getChangeHours() {
+    return this.changeHours();
   }
 
   createIcon(icon, clas) {
@@ -53,8 +39,10 @@ class ChangeForecast {
       uiIcon.classList.add("change-hours-dot");
     }
     if (clas.match(/(left)/g)) {
-      // uiIcon.classList.add()
-      // here I can add event listener to left arrow
+      uiIcon.classList.add("left");
+    }
+    if (clas.match(/(right)/g)) {
+      uiIcon.classList.add("right");
     }
     return uiIcon;
   }
@@ -106,11 +94,12 @@ class DailyForecast {
   constructor(data) {
     this.#data = data;
     this.#daily_block.classList.add("weather-forecast-daily");
+    this.#daily_block.classList.add("general-forecast");
   }
 
   createForecast(weatherData) {
     // transform data
-    const data = helper.getData(weatherData);
+    const data = helper.getDataDaily(weatherData);
     const dailyContainer = document.createElement("div");
     dailyContainer.classList.add("weather-forecast-daily-item");
 
@@ -153,7 +142,7 @@ export class Forecast {
   #forecastDiv = document.createElement("div");
   constructor(data) {
     this.#forecastDiv.classList.add("forecast");
-    const changeForecast = new ChangeForecast();
+    const changeForecast = new ChangeForecast().getChangeForecast;
     const dailyForecast = new DailyForecast(data);
     this.#forecastDiv.appendChild(changeForecast);
     this.#forecastDiv.appendChild(dailyForecast.createContainer);
@@ -161,4 +150,4 @@ export class Forecast {
   }
 }
 
-// export default { Forecast };
+export default { Forecast, DailyForecast, ChangeForecast, HourlyForecast };

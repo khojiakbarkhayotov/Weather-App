@@ -2,8 +2,11 @@
 import "./style/main.scss";
 import { UpperBlock } from "./main.js";
 import { Forecast } from "./forecast.js";
+import { DOM } from "./DOMfunctions.js";
 
 const APIKEY = "26f8c0fbf35b930b34088adc6c05be8b";
+let countOfExecution = 0;
+let lastCity;
 
 // Get location of the client using Geolocation API
 const getLocation = async function (units = "standard") {
@@ -14,14 +17,27 @@ const getLocation = async function (units = "standard") {
       getWeatherData(URL);
     },
     (error) => {
-      console.log(error);
+      getCityData("tashkent");
     }
   );
   return location;
   // return location.coords;
 };
 
-const getCityData = async function () {};
+const getCityData = async function (city, units = "standard") {
+  try {
+    countOfExecution++;
+    const query = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${APIKEY}`;
+    const data = await fetch(query);
+    const dataJSON = await data.json();
+    console.log(dataJSON);
+    const { lon, lat } = dataJSON.coord;
+    const newQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&units=${units}&exclude=minutely,alerts&lon=${lon}&appid=${APIKEY}`;
+    getWeatherData(newQuery);
+  } catch {
+    console.log("Location was not found!");
+  }
+};
 // const CurrentWeather = `https://api.openweathermap.org/data/3.0/onecall?lat=${position.lat}&lon=${position.lon}&appid=${APIKEY}`;
 // Create main container
 
@@ -37,16 +53,38 @@ async function getWeatherData(url) {
   document.body.textContent = "";
   document.body.appendChild(upperBlock);
   document.body.appendChild(bottom);
-
-  const displayBtn = upperBlock.querySelector(".weather-info__display");
-  displayBtn.addEventListener("click", function () {
-    if (this.classList.contains("standard")) {
-      getLocation("imperial");
-    }
-    if (this.classList.contains("imperial")) {
-      getLocation();
-    }
-  });
+  const manipulate = new DOM(dataJSON);
+  manipulateUpper();
 }
 
+function manipulateUpper() {
+  const displayBtn = document.querySelector(".weather-info__display");
+  const search = document.querySelector(".search-box");
+  const searchBtn = document.querySelector(".search-box__image");
+
+  displayBtn.addEventListener("click", function () {
+    if (this.classList.contains("standard")) {
+      if (countOfExecution >= 1) {
+        getCityData(lastCity, "imperial");
+      } else getLocation("imperial");
+    }
+    if (this.classList.contains("imperial")) {
+      if (countOfExecution > 1) {
+        getCityData(lastCity);
+      } else getLocation();
+    }
+  });
+
+  search.addEventListener("submit", searchCity.bind(search));
+  searchBtn.addEventListener("click", searchCity.bind(search));
+
+  function searchCity(e) {
+    e.preventDefault();
+    const cityName = this.city.value;
+    lastCity = cityName;
+    getCityData(cityName);
+  }
+}
+
+// initial load to identify your location
 getLocation();
