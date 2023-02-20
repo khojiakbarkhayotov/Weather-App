@@ -29,11 +29,11 @@ function getDataDaily(data) {
 /**getDataHourly function to return formated data to Hourly Forecast*/
 function getDataHourly(data, timezone) {
   const weatherData = {};
-  const currentTime = new Date().toLocaleString("en-US", {
+  const date = new Date(data.dt * 1000).toLocaleString("en-US", {
     timeZone: timezone,
   });
-  const [hour, , part] = currentTime.split(", ")[1].split(":");
-  weatherData.hour = `${hour} : ${part.slice(-2).toLowerCase()}`;
+  const [hour, , part] = date.split(", ")[1].split(":");
+  weatherData.hour = `${hour} ${part.slice(-2).toLowerCase()}`;
   weatherData.temp =
     data.temp > 220
       ? Math.round(data.temp - 273.15) + " °C"
