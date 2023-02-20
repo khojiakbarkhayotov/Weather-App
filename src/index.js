@@ -30,7 +30,6 @@ const getCityData = async function (city, units = "standard") {
     const query = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${APIKEY}`;
     const data = await fetch(query);
     const dataJSON = await data.json();
-    console.log(dataJSON);
     const { lon, lat } = dataJSON.coord;
     const newQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&units=${units}&exclude=minutely,alerts&lon=${lon}&appid=${APIKEY}`;
     getWeatherData(newQuery);
@@ -48,7 +47,6 @@ const getCityData = async function (city, units = "standard") {
 async function getWeatherData(url) {
   const data = await fetch(url);
   const dataJSON = await data.json();
-  console.log(dataJSON);
   const upperBlock = new UpperBlock(dataJSON);
   const bottom = new Forecast(dataJSON);
   document.body.textContent = "";
