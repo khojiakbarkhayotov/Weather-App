@@ -38,38 +38,29 @@ class Main {
         ? Math.round(this.#data.current.temp - 273.15) + " °C"
         : Math.round(this.#data.current.temp) + "  °F";
     data.city = this.#data.timezone.split("/")[1];
-    const dateGlobal = new Date(this.#data.current.dt * 1000);
-    const lastDigit = dateGlobal.getDate() % 10;
+
+    // fixing date
+    const { timezone } = this.#data;
+    const currentTime = new Date().toLocaleString("en-US", {
+      timeZone: timezone,
+    });
+    const [date, time] = currentTime.split(", ");
+    const partOfDay = time.split("").splice(-3, 3).join("").trim();
+    const [month, day, year] = date.split("/");
+    const dateGlobal = new Date(Date.UTC(year, month - 1, day));
+    const lastDigit = +day % 10;
     let suffix;
     if (lastDigit === 1) suffix = "st";
     else if (lastDigit === 2) suffix = "nd";
     else if (lastDigit === 3) suffix = "rd";
     else suffix = "th";
+    data.date = `${helper.dayNames[dateGlobal.getDay()]}, ${day}${suffix} ${
+      months[month - 1]
+    } \`${year.slice(-2)}`;
 
-    const dateISO = new Date(
-      new Date(this.#data.current.dt * 1000).toLocaleString(
-        "en-US",
-        this.#data.timezone
-      )
-    ).toLocaleString("en-US", this.#data.timezone);
-    console.log(this.#data.timezone);
-    console.log(dateISO);
-    data.date = `${
-      helper.dayNames[dateGlobal.getDay()]
-    }, ${dateGlobal.getDate()}${suffix} ${
-      months[dateGlobal.getMonth()]
-    } \`${dateGlobal.getFullYear().toString().slice(2)}`;
+    const [hour, minute] = time.split(":");
 
-    let hours = dateGlobal.getHours(),
-      minutes = dateGlobal.getMinutes();
-
-    if (hours === 0) {
-      hours = 12;
-    }
-
-    data.time = `${hours >= 13 ? hours - 12 : hours}:${
-      minutes < 10 ? "0" : ""
-    }${minutes} ${hours >= 12 ? "pm" : "am"}`;
+    data.time = `${hour}:${minute} ${partOfDay.toLowerCase()}`;
 
     data.icon = helper.getIcon(this.#data.current.weather[0].icon);
     return data;
@@ -101,6 +92,10 @@ class Main {
             />
             <img class="search-box__image" src=${searchIcon} alt="search" type="submit" />
           </form>
+          <div class="error-msg hidden">
+            <span>Location not found!</span>
+            <span>Search must be in the form of "City", "City, State" or "City, Country".</span>
+          </div>
     `;
   }
 

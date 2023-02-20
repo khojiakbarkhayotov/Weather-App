@@ -9,7 +9,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "Weather App",
-      // favicon: "./src/assets/icon.jfif",
+      favicon: "./src/assets/weather.png",
     }),
   ],
   devtool: "inline-source-map",

@@ -4,7 +4,6 @@ import left from "./assets/SVG/arrow_left.svg";
 import right from "./assets/SVG/arrow_right.svg";
 import dotCircle from "./assets/SVG/dot_circle.svg";
 import { HourlyForecast } from "./forecast-hourly.js";
-import { chunk } from "lodash";
 
 class ChangeForecast {
   #changeForecast = document.createElement("div");

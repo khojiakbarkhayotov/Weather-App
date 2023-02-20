@@ -4,9 +4,11 @@ import helper from "./helper.js";
 export class HourlyForecast {
   #hourlyForecast = document.createElement("div");
   #data;
+  #timezone;
 
   constructor(data) {
     this.#data = data.hourly;
+    this.#timezone = data.timezone;
     this.#hourlyForecast.classList.add("weather-forecast-hourly");
     this.#hourlyForecast.classList.add("general-forecast");
   }
@@ -15,7 +17,7 @@ export class HourlyForecast {
     const item = document.createElement("div");
     item.classList.add("weather-forecast-hourly__item");
 
-    const data = helper.getDataHourly(weatherData);
+    const data = helper.getDataHourly(weatherData, this.#timezone);
     const hour = document.createElement("span");
     hour.classList.add("weather-forecast-hourly__hour");
     hour.textContent = data.hour;

@@ -35,7 +35,8 @@ const getCityData = async function (city, units = "standard") {
     const newQuery = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&units=${units}&exclude=minutely,alerts&lon=${lon}&appid=${APIKEY}`;
     getWeatherData(newQuery);
   } catch {
-    console.log("Location was not found!");
+    document.querySelector(".error-msg").classList.remove("hidden");
+    document.querySelector(".search-box__input").value = "";
   }
 };
 // const CurrentWeather = `https://api.openweathermap.org/data/3.0/onecall?lat=${position.lat}&lon=${position.lon}&appid=${APIKEY}`;
@@ -61,6 +62,7 @@ function manipulateUpper() {
   const displayBtn = document.querySelector(".weather-info__display");
   const search = document.querySelector(".search-box");
   const searchBtn = document.querySelector(".search-box__image");
+  const errorMsg = document.querySelector(".error-msg");
 
   displayBtn.addEventListener("click", function () {
     if (this.classList.contains("standard")) {
@@ -74,6 +76,8 @@ function manipulateUpper() {
       } else getLocation();
     }
   });
+
+  if (!errorMsg.classList.contains("hidden")) errorMsg.classList.add("hidden");
 
   search.addEventListener("submit", searchCity.bind(search));
   searchBtn.addEventListener("click", searchCity.bind(search));
